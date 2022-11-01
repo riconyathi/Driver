@@ -4,31 +4,21 @@ import java.util.Scanner;
 
 public class Driver {
     public static void main(String[] args) {
+        int day = 1;
 
         Scanner scan = new Scanner(System.in);
-        System.out.println("Enter your buying price per share:");
-        double buyingPrice = scan.nextDouble();
-        int day = 1;
-        double closingPrice = 0.1;
-        DecimalFormat df = new DecimalFormat("0.00");
+
+        Earnings earnings = new Earnings();
+
+        double openingShare = earnings.inputEarningsOpening(scan);
+
         while(true){
-            System.out.println("Enter the closing price for day "
-            + day + " (any negative value to leave: ");
-            closingPrice = scan.nextDouble();
 
-            if(closingPrice < 0.0 ) break;
+           double closingShare =  earnings.inputEarningsClosing(scan,day);
+            if(closingShare < 0.0 ) break;
 
-            double earnings = closingPrice - buyingPrice;
-
-            if(earnings > 0 ){
-                System.out.println("After day "+ day + " , you earned " +
-                        df.format(earnings )+" per share.");
-            }else if(earnings < 0.0 ){
-                System.out.println("After day "+ day + " , you lost " +
-                        df.format(-earnings )+" per share.");
-            }else {
-                System.out.println("After day "+ day + " , you have 0 per share.");
-            }
+           String message = earnings.calculateEarnings(openingShare,closingShare, day);
+            System.out.println(message);
 
             day++;
 
